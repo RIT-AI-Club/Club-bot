@@ -23,15 +23,11 @@ const client = new Client({
 client.commands = new Map();
 client.commandArray = [];
 client.botStartTime = Math.floor(Date.now() / 1000);
-
-const functionFolders = fs.readdirSync(`./src/functions`);
-for (const folder of functionFolders) {
-  const files = fs
-    .readdirSync(`./src/functions/${folder}`)
-    .filter((file) => file.endsWith(".js"));
-  for (const file of files) {
-    require(`./functions/${folder}/${file}`)(client);
-  }
+const files = fs
+  .readdirSync(`./src/functions/handlers`)
+  .filter((file) => file.endsWith(".js"));
+for (const file of files) {
+  require(`./functions/handlers/${file}`)(client);
 }
 
 const commandsPath = "./src/commands";
