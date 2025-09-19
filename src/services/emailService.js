@@ -2,27 +2,18 @@ const nodemailer = require("nodemailer");
 
 class EmailService {
   constructor() {
-    // Configure your email transporter
     this.transporter = nodemailer.createTransport({
-      // Gmail example (you can use other services)
-      service: "gmail",
+      host: "smtp.zoho.com",
+      port: 587,
+      secure: false,
       auth: {
-        user: process.env.EMAIL_USER, // Your gmail address
-        pass: process.env.EMAIL_PASS, // Your gmail app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
-
-    // Alternative: Using SMTP (for school email servers)
-    // this.transporter = nodemailer.createTransport({
-    //   host: 'smtp.rit.edu', // Your school's SMTP server
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS
-    //   }
-    // });
-    // });
   }
 
   generateVerificationCode() {
