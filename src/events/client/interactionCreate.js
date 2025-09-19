@@ -1,3 +1,5 @@
+const verificationHandler = require('../../services/verificationHandler');
+
 module.exports = {
   name: "interactionCreate",
   async execute(interaction, client) {
@@ -21,6 +23,16 @@ module.exports = {
         const userId = interaction.user.id;
         const guildId = interaction.guild?.id || null;
         await command.execute(interaction, client, { userId, guildId });
+      } 
+      else if (interaction.isButton()) {
+        if (interaction.customId.startsWith('verify_email_')) {
+          await verificationHandler.handleVerificationButton(interaction);
+        }
+      }
+      else if (interaction.isModalSubmit()) {
+        if (interaction.customId.startsWith('verify_modal_')) {
+          await verificationHandler.handleVerificationModal(interaction);
+        }
       }
     } catch (error) {
       const cmd = interaction.commandName || interaction.customId || "unknown";
